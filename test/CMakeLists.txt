@@ -1,6 +1,6 @@
 
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    add_compile_options(-Wall -Wextra -Wpedantic -Wc++20-extensions)
+    add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 if(MSVC)
