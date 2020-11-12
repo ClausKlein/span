@@ -1,5 +1,13 @@
 ---
-Checks:          '-*,cert-*,clang-diagnostic-*,clang-analyzer-*,hicpp-*,-hicpp-no-array-decay,-hicpp-explicit-*,-hicpp-use-equals-default,misc-*'
+Checks:
+'-*,
+  cert-*,
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  hicpp-*,-hicpp-avoid-c-arrays,-hicpp-no-array-decay,-hicpp-explicit-*,-hicpp-use-equals-default,
+  misc-*,
+  modernize-*,-modernize-use-*,-modernize-avoid-c-arrays,
+'
 WarningsAsErrors: 'clang-diagnostic-*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false

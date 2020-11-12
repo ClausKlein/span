@@ -1,10 +1,10 @@
 
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
+    add_compile_options(-Wall -Wextra -Wpedantic -Wc++20-extensions)
 endif()
 
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /permissive-")
+    add_compile_options(/W4 /permissive-)
 endif()
 
 set(CMAKE_CXX_EXTENSIONS Off)

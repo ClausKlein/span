@@ -20,15 +20,15 @@ PROJECT_NAME:=$(shell basename $${PWD})
 checkAllHeader?='$(CURDIR)/.*'
 
 # NOTE: there are many errors with boost::test, doctest, catch test framework! CK
-CHECKS?='-*non-private-member-*,-cppcoreguidelines-pro-bounds-*,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-macro-usage,-cppcoreguidelines-avoid-*,-modernize-avoid-*,-readability-magic-numbers'
+CHECKS?='-*non-private-member-*'
 ## CHECKS?='-*,cppcoreguidelines-*,-cppcoreguidelines-pro-*,-cppcoreguidelines-avoid-*,-cppcoreguidelines-pro-bounds-array-to-pointer-decay'
 # CHECKS?='-*,portability-*,readability-*,misc-*,-readability-magic-numbers'
 CHECKS?='-*,boost-*,cert-*,-cert-err58-cpp,misc-*,-misc-static-assert,-misc-unused-*,-misc-unconventional-*'
 
 # prevent hard config of find_package(asio 1.14.1 CONFIG CMAKE_FIND_ROOT_PATH_BOTH)
 ifeq (NO${CROSS_COMPILE},NO)
-    # CC:=/usr/local/bin/clang
-    # CXX:=/usr/local/bin/clang++
+    # CC:=/usr/local/opt/llvm/bin/clang
+    # CXX:=/usr/local/opt/llvm/bin/clang++
 
     CMAKE_INSTALL_PREFIX?=/usr/local
     export CMAKE_INSTALL_PREFIX

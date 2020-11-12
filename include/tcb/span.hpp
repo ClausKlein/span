@@ -696,8 +696,7 @@ template <size_t I, typename ElementType, size_t Extent>
 struct tuple_element<I, TCB_SPAN_NAMESPACE_NAME::span<ElementType, Extent>> {
 public:
     static_assert(Extent != TCB_SPAN_NAMESPACE_NAME::dynamic_extent &&
-                      I < Extent,
-                  "");
+                      I < Extent);
     using type = ElementType;
 };
 
