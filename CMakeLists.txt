@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.13...3.15)
 
+include(${CMAKE_PROJECT_INCLUDE_BEFORE} OPTIONAL)
 project(span LANGUAGES CXX VERSION 0.9.0)
+include(${CMAKE_PROJECT_INCLUDE} OPTIONAL)
 
 if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(SPAN_MASTER_PROJECT ON)
@@ -11,14 +13,12 @@ include(GNUInstallDirs)
 
 add_library(span INTERFACE)
 add_library(tcb::span ALIAS span)
-#XXX target_sources(span INTERFACE include/tcb/span.hpp)
 target_include_directories(span INTERFACE
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
-target_compile_features(span INTERFACE cxx_std_11)
+target_compile_features(span INTERFACE cxx_std_17)
 
-set(TCB_SPAN_TEST_CXX_STD 11 CACHE STRING "C++ standard version for testing")
 
 option(BUILD_TESTS "Build tests" ${SPAN_MASTER_PROJECT})
 option(SPAN_INSTALL "Generate the install target" ${SPAN_MASTER_PROJECT})
@@ -26,6 +26,8 @@ option(SPAN_INSTALL "Generate the install target" ${SPAN_MASTER_PROJECT})
 
 if(BUILD_TESTS)
     enable_testing()
+
+    set(TCB_SPAN_TEST_CXX_STD 17 CACHE STRING "C++ standard version for testing")
     add_subdirectory(test)
 endif()
 
