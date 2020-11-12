@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.13...3.15)
 
-if(CMAKE_VERSION VERSION_LESS "3.15")
-    include(${CMAKE_PROJECT_INCLUDE_BEFORE})
+
+if(CMAKE_PROJECT_INCLUDE_BEFORE AND CMAKE_VERSION VERSION_LESS "3.15")
+    include(${CMAKE_PROJECT_INCLUDE_BEFORE} OPTIONAL)
     set(CMAKE_PROJECT_INCLUDE_BEFORE ${CMAKE_PROJECT_INCLUDE_BEFORE} CACHE PATH "custom cmake module")
 endif()
 # =======================================
 project(span LANGUAGES CXX VERSION 0.9.0)
 # =======================================
-if(CMAKE_VERSION VERSION_LESS "3.15")
-    include(${CMAKE_PROJECT_INCLUDE})
+if(CMAKE_PROJECT_INCLUDE AND CMAKE_VERSION VERSION_LESS "3.15")
+    include(${CMAKE_PROJECT_INCLUDE} OPTIONAL)
     set(CMAKE_PROJECT_INCLUDE ${CMAKE_PROJECT_INCLUDE} CACHE PATH "custom cmake module")
 endif()
 
