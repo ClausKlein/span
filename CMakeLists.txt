@@ -1,12 +1,20 @@
 cmake_minimum_required(VERSION 3.13...3.15)
 
-include(${CMAKE_PROJECT_INCLUDE_BEFORE} OPTIONAL)
+if(CMAKE_VERSION VERSION_LESS "3.15")
+    include(${CMAKE_PROJECT_INCLUDE_BEFORE} OPTIONAL)
+endif()
+# =======================================
 project(span LANGUAGES CXX VERSION 0.9.0)
-include(${CMAKE_PROJECT_INCLUDE} OPTIONAL)
+# =======================================
+if(CMAKE_VERSION VERSION_LESS "3.15")
+    include(${CMAKE_PROJECT_INCLUDE} OPTIONAL)
+endif()
+
 
 if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(SPAN_MASTER_PROJECT ON)
 endif()
+
 
 include(GNUInstallDirs)
 
@@ -19,11 +27,13 @@ target_include_directories(span INTERFACE
 )
 target_compile_features(span INTERFACE cxx_std_17)
 
+option(TCB_SPAN_STD_COMPLIANT_MODE "Be strict C++20 complient" OFF)
+if(TCB_SPAN_STD_COMPLIANT_MODE)
+    target_compile_definitions(span INTERFACE TCB_SPAN_STD_COMPLIANT_MODE)
+endif()
+
 
 option(BUILD_TESTS "Build tests" ${SPAN_MASTER_PROJECT})
-option(SPAN_INSTALL "Generate the install target" ${SPAN_MASTER_PROJECT})
-
-
 if(BUILD_TESTS)
     enable_testing()
 
@@ -32,6 +42,7 @@ if(BUILD_TESTS)
 endif()
 
 
+option(SPAN_INSTALL "Generate the install target" ${SPAN_MASTER_PROJECT})
 if(SPAN_INSTALL)
     include(CMakePackageConfigHelpers)
 

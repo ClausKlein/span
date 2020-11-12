@@ -392,6 +392,14 @@ public:
     TCB_SPAN_CONSTEXPR_ASSIGN span&
     operator=(const span& other) noexcept = default;
 
+    // NOTE: added std::move support; CK
+#ifndef TCB_SPAN_STD_COMPLIANT_MODE
+    span(span&&) noexcept = default;
+
+    TCB_SPAN_CONSTEXPR_ASSIGN span&
+    operator=(span&&) noexcept = default;
+#endif
+
     // [span.sub], span subviews
     template <std::size_t Count>
     TCB_SPAN_CONSTEXPR11 span<element_type, Count> first() const
@@ -466,7 +474,7 @@ public:
         return *(data() + idx);
     }
 
-    /* Extension: not in P0122 */
+    // NOTE: added span::at extension again: NOT in std C++20 (P0122)! CK
 #ifndef TCB_SPAN_STD_COMPLIANT_MODE
     TCB_SPAN_CONSTEXPR14 reference at(index_type idx) const
     {

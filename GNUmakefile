@@ -68,18 +68,21 @@ else
 endif
 
 
-all: setup .configure-$(BUILD_TYPE)
-	cmake --build $(BUILD_DIR) -- $(VERBOSE)
+# default rule:
+all: test run-clang-tidy
+
+build: setup .configure-$(BUILD_TYPE)
+	cmake --build $(BUILD_DIR) -- $(VERBOSE) all
 
 
-test: all
+test: build
 	cd $(BUILD_DIR) && ctest -C $(BUILD_TYPE) --rerun-failed --output-on-failure .
 	cd $(BUILD_DIR) && ctest -C $(BUILD_TYPE) .
 
 
 # NOTE: we do only check the new cpp file! CK
 run-clang-tidy: setup .configure-$(BUILD_TYPE) compile_commands.json .clang-tidy
-	run-clang-tidy.py -header-filter=$(checkAllHeader) -checks=$(CHECKS) 2>&1 | tee .run-clang-tidy.log
+	run-clang-tidy -header-filter=$(checkAllHeader) -checks=$(CHECKS) 2>&1 | tee .run-clang-tidy.log
 	egrep '\b(warning|error):' .run-clang-tidy.log | perl -pe 's/(^.*) (warning|error):/\2/' | sort -u
 	-builddriver cat .run-clang-tidy.log > builddriver.log 2>&1
 
@@ -110,7 +113,7 @@ format: .clang-format
 
 
 cmakelint:
-	find $(PACKAGE) -type f \( -name '*.cmake' -o -name 'CMakeLists.txt' \) -print0 | xargs -0 cmakelint --linelength=120 2>&1 | tee .cmakelint.log
+	find . -type f \( -name '*.cmake' -o -name 'CMakeLists.txt' \) -print0 | xargs -0 cmakelint --linelength=120 2>&1 | tee .cmakelint.log
 
 
 show: setup
@@ -122,7 +125,7 @@ check: setup .configure-$(BUILD_TYPE) .clang-tidy
 	egrep '\b(warning|error):' run-clang-tidy.log | perl -pe 's/(^.*) (warning|error):/\2/' | sort -u
 
 
-lcov: all .configure-Coverage
+lcov: build .configure-Coverage
 	cmake --build $(BUILD_DIR) --target $@
 
 
